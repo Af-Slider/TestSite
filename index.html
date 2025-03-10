@@ -34,12 +34,23 @@
       text-align: center;
       position: relative;
       margin-bottom: 2rem;
+      display: inline-block;
     }
     .house-map img {
       max-width: 100%;
       height: auto;
       border: 3px solid #ff9900;
       border-radius: 10px;
+      display: block;
+    }
+    /* SVG overlay per scurire le stanze */
+    .overlay-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none; /* i click passano all'image map sottostante */
     }
     /* Stile per il popup (modale) */
     .modal-overlay {
@@ -47,7 +58,7 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(0, 0, 0, 0.5);
-      display: none; /* hidden di default */
+      display: none;
       justify-content: center;
       align-items: center;
       z-index: 10;
@@ -112,7 +123,7 @@
   <header>
     <h1>La nostra futura casa</h1>
     <p class="intro">
-      ciao! Benvenuto nella nostra futura casa! Come dici? Vuoi aiutarci a costruirla??<br/>
+      ciao! Benvenuto nella nostra futura casa! Come dici? Vuoi aiutarci a costruirla??<br>
       Ma wow, che gentile! Prego, scegli pure come contribuire :)
     </p>
   </header>
@@ -120,44 +131,30 @@
   <div class="container">
     <!-- Sezione Mappa Casa -->
     <div class="house-map">
-      <!-- Usa la tua immagine caricata su GitHub o in locale -->
-      <img
-        src="casa.jpg"
-        usemap="#houseMap"
-        alt="Mappa interattiva della casa"
-      />
+      <!-- Immagine con la mappa interattiva -->
+      <img id="houseImage" src="casa.jpg" usemap="#image-map" alt="Mappa interattiva della casa" />
 
-      <!-- Definizione dell'image map -->
-      <!-- NOTA: i coordinate in area sono di esempio, da adattare all'immagine vera -->
-      <map name="houseMap">
-        <!-- Salotto (esempio) -->
-        <area 
-          shape="rect" 
-          coords="120,100,200,180" 
-          alt="Salotto" 
-          href="#"
-          onclick="openModal('salotto'); return false;"
-        />
-        <!-- Cucina (esempio) -->
-        <area 
-          shape="rect" 
-          coords="220,100,300,180" 
-          alt="Cucina" 
-          href="#"
-          onclick="openModal('cucina'); return false;"
-        />
-        <!-- Piante / Giardino (esempio) -->
-        <area 
-          shape="rect" 
-          coords="50,250,150,320" 
-          alt="Giardino" 
-          href="#"
-          onclick="openModal('piante'); return false;"
-        />
+      <!-- Mappa immagine con coordinate fornite -->
+      <map name="image-map">
+        <area target="" alt="cantina" title="cantina" href="#" coords="222,737,399,736,401,623,221,623,218,660" shape="poly" onclick="openModal('cantina'); return false;">
+        <area target="" alt="cucina" title="cucina" href="#" coords="222,594,386,593,400,450,212,446,216,541" shape="poly" onclick="openModal('cucina'); return false;">
+        <area target="" alt="sala" title="sala" href="#" coords="574,591,580,448,408,448,404,592" shape="poly" onclick="openModal('sala'); return false;">
+        <area target="" alt="soggiorno" title="soggiorno" href="#" coords="213,416,397,414,406,290,210,290" shape="poly" onclick="openModal('soggiorno'); return false;">
+        <area target="" alt="mansarda" title="mansarda" href="#" coords="214,261,213,241,308,118,395,237,396,256" shape="poly" onclick="openModal('mansarda'); return false;">
       </map>
+
+      <!-- SVG overlay per rendere le stanze "scure" che si schiariscono in base al contributo -->
+      <!-- Regola il viewBox in base alle dimensioni reali della tua immagine -->
+      <svg id="houseOverlay" class="overlay-svg" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid meet">
+        <polygon id="overlay-cantina" points="222,737 399,736 401,623 221,623 218,660" fill="black" fill-opacity="1" />
+        <polygon id="overlay-cucina" points="222,594 386,593 400,450 212,446 216,541" fill="black" fill-opacity="1" />
+        <polygon id="overlay-sala" points="574,591 580,448 408,448 404,592" fill="black" fill-opacity="1" />
+        <polygon id="overlay-soggiorno" points="213,416 397,414 406,290 210,290" fill="black" fill-opacity="1" />
+        <polygon id="overlay-mansarda" points="214,261 213,241 308,118 395,237 396,256" fill="black" fill-opacity="1" />
+      </svg>
     </div>
 
-    <!-- Modale generica -->
+    <!-- Modale per il contributo -->
     <div class="modal-overlay" id="modalOverlay">
       <div class="modal" id="modalContent">
         <button class="close-btn" onclick="closeModal()">×</button>
@@ -166,30 +163,36 @@
         <div class="progress-bar-container">
           <div class="progress-bar-fill" id="roomProgress"></div>
         </div>
-        <p><span id="roomCollected"></span> / <span id="roomGoal"></span> € raccolti</p>
-        <a class="btn-bonifico" href="#bonifico" onclick="alert('Grazie per voler contribuire! Effettua il bonifico.');">
-          Contribuisci con bonifico
+        <p>
+          <span id="roomCollected"></span> / <span id="roomGoal"></span> € raccolti
+        </p>
+        <div style="margin:1rem 0;">
+          <label for="contributionAmount">Inserisci l'importo che desideri versare:</label><br>
+          <input type="number" id="contributionAmount" min="1" style="width:80px;">
+          <button style="margin-left:8px;" onclick="confirmContribution()">Conferma</button>
+        </div>
+        <a class="btn-bonifico" href="#bonifico" onclick="alert('Grazie! Effettua il bonifico all\'IBAN indicato e inviaci conferma.');">
+          IBAN per il bonifico
         </a>
       </div>
     </div>
 
-    <!-- Sezione per lista regali (opzionale) -->
+    <!-- Sezione Lista Regali / Sezioni -->
     <h2 style="text-align:center; margin-bottom:1rem;">Lista regali / sezioni</h2>
     <div id="listaRegali"></div>
 
-    <hr style="margin:2rem 0;" />
+    <hr style="margin:2rem 0;">
 
     <!-- Info Bonifico -->
     <h3>Come effettuare il bonifico</h3>
     <p>
-      IBAN: <strong>IT00A123456789000</strong><br/>
-      Intestato a: <strong>Nome Cognome</strong><br/>
+      IBAN: <strong>IT00A123456789000</strong><br>
+      Intestato a: <strong>Nome Cognome</strong><br>
       Causale: <strong>Regalo per la casa</strong>
     </p>
     <p>
-      Dopo aver effettuato il bonifico, ti chiediamo la cortesia di mandarci una mail
-      a <strong>mialtro@email.com</strong> per segnalarci l'importo. Così aggiorniamo la
-      barra di avanzamento!
+      Dopo aver effettuato il bonifico, ti chiediamo di mandarci una mail a <strong>mialtro@email.com</strong>
+      per segnalarci l'importo e aggiornare la barra di avanzamento!
     </p>
   </div>
 
@@ -198,60 +201,98 @@
   </footer>
 
   <script>
-    // Esempio di "database" fittizio delle sezioni
+    // Array con i dati aggiornati delle stanze
     const rooms = [
       {
-        id: "salotto",
-        title: "Salotto",
-        description: "Divano, poltrone, TV e decorazioni!",
-        goal: 1000,
-        collected: 400
+        id: "cantina",
+        title: "Cantina",
+        description: "Spazio per vini e conservazione.",
+        goal: 500,
+        collected: 100
       },
       {
         id: "cucina",
         title: "Cucina",
-        description: "Forno, piano cottura e pentole!",
-        goal: 1500,
-        collected: 900
+        description: "Per cucinare e preparare deliziose ricette.",
+        goal: 800,
+        collected: 300
       },
       {
-        id: "piante",
-        title: "Piante / Giardino",
-        description: "Un po' di verde per il nostro futuro nido!",
-        goal: 200,
+        id: "sala",
+        title: "Sala",
+        description: "Spazio per accogliere amici e famiglia.",
+        goal: 1000,
+        collected: 400
+      },
+      {
+        id: "soggiorno",
+        title: "Soggiorno",
+        description: "Zona relax e intrattenimento.",
+        goal: 1200,
+        collected: 600
+      },
+      {
+        id: "mansarda",
+        title: "Mansarda",
+        description: "Spazio versatile e accogliente.",
+        goal: 700,
         collected: 200
       }
     ];
 
-    // Funzione per aprire la modale
+    let currentRoomId = null;
+
+    // Funzione per aprire la modale e mostrare i dettagli della stanza
     function openModal(roomId) {
+      currentRoomId = roomId;
       const overlay = document.getElementById("modalOverlay");
-      const content = document.getElementById("modalContent");
-
-      // Troviamo i dati della stanza
       const roomData = rooms.find(r => r.id === roomId);
-
       if (roomData) {
         document.getElementById("roomTitle").textContent = roomData.title;
         document.getElementById("roomDescription").textContent = roomData.description;
         document.getElementById("roomCollected").textContent = roomData.collected;
         document.getElementById("roomGoal").textContent = roomData.goal;
-
-        // Calcolo percentuale
         let perc = (roomData.collected / roomData.goal) * 100;
         if (perc > 100) perc = 100;
         document.getElementById("roomProgress").style.width = perc + "%";
       }
-
       overlay.style.display = "flex";
     }
 
-    // Funzione per chiudere la modale
+    // Chiude la modale e resetta l'input
     function closeModal() {
       document.getElementById("modalOverlay").style.display = "none";
+      currentRoomId = null;
+      document.getElementById("contributionAmount").value = "";
     }
 
-    // Mostra la lista regali in una sezione dedicata
+    // Gestisce il contributo inserito dall'utente
+    function confirmContribution() {
+      const amountInput = document.getElementById("contributionAmount");
+      const amount = parseInt(amountInput.value);
+      if (!amount || amount < 1) {
+        alert("Inserisci un importo valido!");
+        return;
+      }
+      addContribution(currentRoomId, amount);
+      amountInput.value = "";
+      alert("Grazie per il tuo contributo! Ricorda di effettuare il bonifico reale.");
+    }
+
+    // Aggiorna il contributo della stanza e la relativa UI
+    function addContribution(roomId, amount) {
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+      room.collected += amount;
+      document.getElementById("roomCollected").textContent = room.collected;
+      let perc = (room.collected / room.goal) * 100;
+      if (perc > 100) perc = 100;
+      document.getElementById("roomProgress").style.width = perc + "%";
+      renderListaRegali();
+      updateOverlays();
+    }
+
+    // Renderizza la lista delle stanze e il loro stato di avanzamento
     const listaRegaliDiv = document.getElementById("listaRegali");
     function renderListaRegali() {
       let html = '<div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">';
@@ -264,12 +305,8 @@
             <div class="progress-bar-container" style="margin-bottom:0.5rem;">
               <div class="progress-bar-fill" style="width:${perc}%;"></div>
             </div>
-            <p style="font-size:0.9rem;">
-              <strong>${room.collected}</strong> / <strong>${room.goal}</strong> € raccolti
-            </p>
-            <button 
-              style="background:#ff9900; color:#fff; border:none; padding:0.5rem 1rem; border-radius:5px; cursor:pointer;"
-              onclick="openModal('${room.id}')">
+            <p style="font-size:0.9rem;"><strong>${room.collected}</strong> / <strong>${room.goal}</strong> € raccolti</p>
+            <button style="background:#ff9900; color:#fff; border:none; padding:0.5rem 1rem; border-radius:5px; cursor:pointer;" onclick="openModal('${room.id}')">
               Contribuisci
             </button>
           </div>
@@ -279,8 +316,21 @@
       listaRegaliDiv.innerHTML = html;
     }
 
-    // Inizializziamo la lista
+    // Aggiorna l'opacità degli overlay in funzione del progresso
+    function updateOverlays() {
+      rooms.forEach(room => {
+        const overlayEl = document.getElementById("overlay-" + room.id);
+        if (!overlayEl) return;
+        let ratio = room.collected / room.goal;
+        if (ratio > 1) ratio = 1;
+        const opacity = 1 - ratio;
+        overlayEl.style.fillOpacity = opacity;
+      });
+    }
+
+    // Inizializzazione
     renderListaRegali();
+    updateOverlays();
   </script>
 </body>
 </html>
