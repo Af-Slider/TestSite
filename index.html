@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>La nostra futura casa</title>
   <style>
-    /* Esempio di importazione di un font personalizzato.
-       Assicurati di caricare MyCustomFont.woff2 (o .woff) nel repository. */
+    /* Importa il font personalizzato */
     @font-face {
       font-family: 'MyCustomFont';
       src: url('MyCustomFont.woff2') format('woff2'),
@@ -18,7 +17,6 @@
     body {
       margin: 0;
       padding: 0;
-      /* Usa il font personalizzato, con fallback */
       font-family: 'MyCustomFont', "Comic Sans MS", cursive;
       background: #fff5e6;
       color: #333;
@@ -32,7 +30,8 @@
     }
     h1 {
       margin: 0;
-      font-size: 2.5rem;
+      /* Aumentato di 10pt rispetto al valore originale */
+      font-size: calc(2.5rem + 10pt);
     }
     .intro {
       margin-top: 0.5rem;
@@ -56,45 +55,25 @@
       border-radius: 10px;
       display: block;
     }
-    /* SVG overlay per scurire le stanze (coordinate aggiornate: spostate di 103 px a sinistra) */
+    /* SVG overlay per scurire le stanze */
     .overlay-svg {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      pointer-events: none;
+      /* Ora i poligoni catturano gli eventi del mouse */
     }
-    /* Modifica degli overlay con le nuove coordinate */
-    /* Cantina: originariamente "222,737 399,736 401,623 221,623 218,660" */
-    /* Diventa: "119,737 296,736 298,623 118,623 115,660" */
-    #overlay-cantina {
+    /* Aggiungiamo effetto hover sui poligoni per l'animazione */
+    .overlay-svg polygon {
       fill: black;
       fill-opacity: 1;
+      transition: transform 0.3s ease, fill 0.3s ease;
+      cursor: pointer;
     }
-    /* Cucina: originariamente "222,594 386,593 400,450 212,446 216,541" */
-    /* Diventa: "119,594 283,593 297,450 109,446 113,541" */
-    #overlay-cucina {
-      fill: black;
-      fill-opacity: 1;
-    }
-    /* Sala: originariamente "574,591 580,448 408,448 404,592" */
-    /* Diventa: "471,591 477,448 305,448 301,592" */
-    #overlay-sala {
-      fill: black;
-      fill-opacity: 1;
-    }
-    /* Soggiorno: originariamente "213,416 397,414 406,290 210,290" */
-    /* Diventa: "110,416 294,414 303,290 107,290" */
-    #overlay-soggiorno {
-      fill: black;
-      fill-opacity: 1;
-    }
-    /* Mansarda: originariamente "214,261 213,241 308,118 395,237 396,256" */
-    /* Diventa: "111,261 110,241 205,118 292,237 293,256" */
-    #overlay-mansarda {
-      fill: black;
-      fill-opacity: 1;
+    .overlay-svg polygon:hover {
+      fill: #ffcc00;
+      transform: scale(1.05);
     }
     
     /* Stile per i popup (modali) */
@@ -192,13 +171,13 @@
         <area target="" alt="mansarda" title="mansarda" href="#" coords="214,261,213,241,308,118,395,237,396,256" shape="poly" onclick="openModal('mansarda'); return false;">
       </map>
 
-      <!-- SVG Overlay con le nuove coordinate (già spostate di 103px a sinistra) -->
+      <!-- SVG Overlay con coordinate spostate di 103px a sinistra -->
       <svg id="houseOverlay" class="overlay-svg" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid meet">
-        <polygon id="overlay-cantina" points="119,737 296,736 298,623 118,623 115,660" />
-        <polygon id="overlay-cucina" points="119,594 283,593 297,450 109,446 113,541" />
-        <polygon id="overlay-sala" points="471,591 477,448 305,448 301,592" />
-        <polygon id="overlay-soggiorno" points="110,416 294,414 303,290 107,290" />
-        <polygon id="overlay-mansarda" points="111,261 110,241 205,118 292,237 293,256" />
+        <polygon id="overlay-cantina" points="119,737 296,736 298,623 118,623 115,660" onclick="openModal('cantina');" />
+        <polygon id="overlay-cucina" points="119,594 283,593 297,450 109,446 113,541" onclick="openModal('cucina');" />
+        <polygon id="overlay-sala" points="471,591 477,448 305,448 301,592" onclick="openModal('sala');" />
+        <polygon id="overlay-soggiorno" points="110,416 294,414 303,290 107,290" onclick="openModal('soggiorno');" />
+        <polygon id="overlay-mansarda" points="111,261 110,241 205,118 292,237 293,256" onclick="openModal('mansarda');" />
       </svg>
     </div>
 
@@ -221,7 +200,7 @@
       </div>
     </div>
 
-    <!-- Nuovo Modal per mostrare IBAN e QR Code -->
+    <!-- Modal per mostrare IBAN e QR Code -->
     <div class="modal-overlay" id="ibanModalOverlay">
       <div class="modal" id="ibanModalContent">
         <button class="close-btn" onclick="closeIbanModal()">×</button>
@@ -240,7 +219,7 @@
 
     <hr style="margin:2rem 0;">
 
-    <!-- Info Bonifico (informazioni aggiuntive) -->
+    <!-- Informazioni Bonifico -->
     <h3>Come effettuare il bonifico</h3>
     <p>
       IBAN: <strong>IT12A1234512345123456789012</strong><br>
@@ -299,7 +278,7 @@
 
     let currentRoomId = null;
 
-    // Apertura del modal di contributo
+    // Apertura del modal per inserire il contributo
     function openModal(roomId) {
       currentRoomId = roomId;
       const overlay = document.getElementById("modalOverlay");
@@ -313,7 +292,7 @@
         if (perc > 100) perc = 100;
         document.getElementById("roomProgress").style.width = perc + "%";
       }
-      overlay.style.display = "flex";
+      document.getElementById("modalOverlay").style.display = "flex";
     }
 
     // Chiude il modal di contributo
@@ -323,7 +302,7 @@
       document.getElementById("contributionAmount").value = "";
     }
 
-    // Gestione del contributo inserito
+    // Gestisce il contributo inserito
     function confirmContribution() {
       const amountInput = document.getElementById("contributionAmount");
       const amount = parseInt(amountInput.value);
@@ -333,12 +312,11 @@
       }
       addContribution(currentRoomId, amount);
       amountInput.value = "";
-      // Chiudi il modal di contributo e apri quello con IBAN e QR code
       closeModal();
       openIbanModal();
     }
 
-    // Aggiunge il contributo alla stanza e aggiorna la UI
+    // Aggiunge il contributo e aggiorna la UI
     function addContribution(roomId, amount) {
       const room = rooms.find(r => r.id === roomId);
       if (!room) return;
@@ -369,7 +347,7 @@
       listaRegaliDiv.innerHTML = html;
     }
 
-    // Aggiorna l'opacità degli overlay in funzione del progresso
+    // Aggiorna l'opacità degli overlay in base al progresso
     function updateOverlays() {
       rooms.forEach(room => {
         const overlayEl = document.getElementById("overlay-" + room.id);
