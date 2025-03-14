@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>La nostra futura casa</title>
   <style>
-    /* Importa il font personalizzato */
+    /* Importa il font personalizzato (se lo usi).
+       Assicurati di caricare MyCustomFont.woff2 / .woff nel repo e aggiornare il percorso. */
     @font-face {
       font-family: 'MyCustomFont';
       src: url('MyCustomFont.woff2') format('woff2'),
@@ -13,7 +14,13 @@
       font-weight: normal;
       font-style: normal;
     }
-    /* --- Palette di colori --- */
+    
+    /* --- Palette di colori scelti dalla tua immagine ---
+       Sfondo generale: #FFF1E1 (beige chiaro)
+       Header: #FFEDD2 (beige leggermente più scuro)
+       Testo principale: #193350 (blu navy scuro)
+       Accenti: #F79B45 (arancione caldo)
+    */
     body {
       margin: 0;
       padding: 0;
@@ -30,6 +37,7 @@
     }
     h1 {
       margin: 0;
+      /* Aumentato di 10pt rispetto al valore originale */
       font-size: calc(2.5rem + 10pt);
     }
     .intro {
@@ -50,10 +58,11 @@
     .house-map img {
       max-width: 100%;
       height: auto;
-      border: 3px solid #F79B45;
+      border: 3px solid #F79B45; /* Bordo arancione */
       border-radius: 10px;
       display: block;
     }
+    /* Overlay SVG: di base un blu scuro, per coerenza con la palette. */
     .overlay-svg {
       position: absolute;
       top: 0;
@@ -77,6 +86,7 @@
       stroke: #F79B45;
       stroke-width: 2;
     }
+    /* Modal generali */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -122,7 +132,7 @@
       width: 100%;
     }
     .progress-bar-fill {
-      background: #F79B45;
+      background: #F79B45; /* Riempimento arancione */
       height: 100%;
       transition: width 0.3s ease-in-out;
     }
@@ -161,7 +171,9 @@
   <div class="container">
     <!-- Sezione Mappa Casa -->
     <div class="house-map">
+      <!-- Immagine della casa -->
       <img id="houseImage" src="casa.jpg" usemap="#image-map" alt="Mappa interattiva della casa" />
+      <!-- Image Map con le coordinate fornite -->
       <map name="image-map">
         <area alt="cantina" title="cantina" href="#"
               coords="222,737,399,736,401,623,221,623,218,660"
@@ -184,6 +196,7 @@
               shape="poly"
               onclick="openModal('mansarda'); return false;">
       </map>
+      <!-- SVG Overlay con coordinate spostate di 103px a sinistra -->
       <svg id="houseOverlay" class="overlay-svg"
            viewBox="0 0 600 800"
            preserveAspectRatio="xMidYMid meet">
@@ -267,9 +280,10 @@
   </footer>
 
   <script>
-    // Variabili globali
-    let rooms = [];  // Verrà popolato dal Google Sheet
+    // Dichiarazione globale: inizialmente l'array delle stanze è vuoto (verrà caricato dal Google Sheet)
+    let rooms = [];
     let currentRoomId = null;
+
     // URL dell'API Apps Script (Google Sheet)
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyH2BZNhlblt7K4ZVKk5b9KTTWcIKRF_RQvKJH_1jclyZ53BHCLG6aJgKGZIiw1MJvw/exec";
 
@@ -363,7 +377,7 @@
       });
     }
     
-    // CARICAMENTO DEI DATI DAL GOOGLE SHEET (GET)
+    // FUNZIONE PER CARICARE I DATI DAL GOOGLE SHEET
     async function loadRoomsFromServer() {
       try {
         const response = await fetch(SCRIPT_URL);
@@ -375,7 +389,7 @@
       }
     }
     
-    // AGGIORNAMENTO DEL CONTRIBUTO (POST)
+    // FUNZIONE PER AGGIORNARE IL CONTRIBUTO (POST)
     async function addContribution(roomId, amount) {
       const room = rooms.find(r => r.id === roomId);
       if (!room) return;
@@ -401,7 +415,7 @@
       }
     }
     
-    // ALL'AVVIO DELLA PAGINA, CARICA I DATI DAL GOOGLE SHEET
+    // All'avvio della pagina, carica i dati dal Google Sheet
     window.onload = () => {
       loadRoomsFromServer();
     };
