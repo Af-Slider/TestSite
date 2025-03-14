@@ -21,19 +21,20 @@
        Testo principale: #193350 (blu navy scuro)
        Accenti: #F79B45 (arancione caldo)
     */
+
     body {
       margin: 0;
       padding: 0;
       font-family: 'MyCustomFont', "Comic Sans MS", cursive;
-      background: #FFF1E1;
-      color: #193350;
+      background: #FFF1E1;       /* Sfondo beige chiaro */
+      color: #193350;           /* Testo blu scuro */
       font-size: 1.1rem;
     }
     header {
       text-align: center;
       padding: 2rem 1rem;
-      background: #FFEDD2;
-      color: #193350;
+      background: #FFEDD2;      /* Beige più scuro */
+      color: #193350;           /* Testo blu scuro */
     }
     h1 {
       margin: 0;
@@ -58,11 +59,12 @@
     .house-map img {
       max-width: 100%;
       height: auto;
-      border: 3px solid #F79B45;
+      border: 3px solid #F79B45; /* Bordo arancione */
       border-radius: 10px;
       display: block;
     }
-    /* Overlay SVG: di base un blu navy scuro, per coerenza con la palette */
+    /* Overlay SVG: di base un blu scuro (invece del nero),
+       per coerenza con la palette. */
     .overlay-svg {
       position: absolute;
       top: 0;
@@ -71,7 +73,7 @@
       height: 100%;
     }
     .overlay-svg polygon {
-      fill: #193350;
+      fill: #193350;          /* Blu navy scuro di base */
       fill-opacity: 1;
       transition: transform 0.3s ease,
                   fill 0.3s ease,
@@ -81,11 +83,12 @@
     }
     .overlay-svg polygon:hover {
       transform: scale(1.05);
-      fill: #F79B45;
-      fill-opacity: 0.7;
-      stroke: #F79B45;
+      fill: #F79B45;          /* Arancione */
+      fill-opacity: 0.7;      /* Più trasparente per l'effetto "illuminato" */
+      stroke: #F79B45;        /* Bordo arancione */
       stroke-width: 2;
     }
+
     /* Modal generali */
     .modal-overlay {
       position: fixed;
@@ -111,7 +114,7 @@
       margin-top: 0;
       margin-bottom: 0.5rem;
       font-size: 1.8rem;
-      color: #193350;
+      color: #193350;  /* Blu scuro */
     }
     .close-btn {
       position: absolute;
@@ -132,14 +135,14 @@
       width: 100%;
     }
     .progress-bar-fill {
-      background: #F79B45;
+      background: #F79B45; /* Riempimento arancione */
       height: 100%;
       transition: width 0.3s ease-in-out;
     }
     .btn {
       display: inline-block;
       padding: 0.6rem 1.2rem;
-      background: #F79B45;
+      background: #F79B45; /* Arancione */
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
@@ -149,7 +152,7 @@
       cursor: pointer;
     }
     .btn:hover {
-      background: #E65C00;
+      background: #E65C00; /* Arancione più scuro in hover */
     }
     footer {
       text-align: center;
@@ -173,21 +176,50 @@
     <div class="house-map">
       <!-- Immagine della casa -->
       <img id="houseImage" src="casa.jpg" usemap="#image-map" alt="Mappa interattiva della casa" />
+
       <!-- Image Map con le coordinate fornite -->
       <map name="image-map">
-        <area alt="cantina" title="cantina" href="#" coords="222,737,399,736,401,623,221,623,218,660" shape="poly" onclick="openModal('cantina'); return false;">
-        <area alt="cucina" title="cucina" href="#" coords="222,594,386,593,400,450,212,446,216,541" shape="poly" onclick="openModal('cucina'); return false;">
-        <area alt="sala" title="sala" href="#" coords="574,591,580,448,408,448,404,592" shape="poly" onclick="openModal('sala'); return false;">
-        <area alt="soggiorno" title="soggiorno" href="#" coords="213,416,397,414,406,290,210,290" shape="poly" onclick="openModal('soggiorno'); return false;">
-        <area alt="mansarda" title="mansarda" href="#" coords="214,261,213,241,308,118,395,237,396,256" shape="poly" onclick="openModal('mansarda'); return false;">
+        <area target="" alt="cantina" title="cantina" href="#"
+              coords="222,737,399,736,401,623,221,623,218,660"
+              shape="poly"
+              onclick="openModal('cantina'); return false;">
+        <area target="" alt="cucina" title="cucina" href="#"
+              coords="222,594,386,593,400,450,212,446,216,541"
+              shape="poly"
+              onclick="openModal('cucina'); return false;">
+        <area target="" alt="sala" title="sala" href="#"
+              coords="574,591,580,448,408,448,404,592"
+              shape="poly"
+              onclick="openModal('sala'); return false;">
+        <area target="" alt="soggiorno" title="soggiorno" href="#"
+              coords="213,416,397,414,406,290,210,290"
+              shape="poly"
+              onclick="openModal('soggiorno'); return false;">
+        <area target="" alt="mansarda" title="mansarda" href="#"
+              coords="214,261,213,241,308,118,395,237,396,256"
+              shape="poly"
+              onclick="openModal('mansarda'); return false;">
       </map>
+
       <!-- SVG Overlay con coordinate spostate di 103px a sinistra -->
-      <svg id="houseOverlay" class="overlay-svg" viewBox="0 0 600 800" preserveAspectRatio="xMidYMid meet">
-        <polygon id="overlay-cantina" points="119,737 296,736 298,623 118,623 115,660" onclick="openModal('cantina');" />
-        <polygon id="overlay-cucina" points="119,594 283,593 297,450 109,446 113,541" onclick="openModal('cucina');" />
-        <polygon id="overlay-sala" points="471,591 477,448 305,448 301,592" onclick="openModal('sala');" />
-        <polygon id="overlay-soggiorno" points="110,416 294,414 303,290 107,290" onclick="openModal('soggiorno');" />
-        <polygon id="overlay-mansarda" points="111,261 110,241 205,118 292,237 293,256" onclick="openModal('mansarda');" />
+      <svg id="houseOverlay" class="overlay-svg"
+           viewBox="0 0 600 800"
+           preserveAspectRatio="xMidYMid meet">
+        <polygon id="overlay-cantina"
+                 points="119,737 296,736 298,623 118,623 115,660"
+                 onclick="openModal('cantina');" />
+        <polygon id="overlay-cucina"
+                 points="119,594 283,593 297,450 109,446 113,541"
+                 onclick="openModal('cucina');" />
+        <polygon id="overlay-sala"
+                 points="471,591 477,448 305,448 301,592"
+                 onclick="openModal('sala');" />
+        <polygon id="overlay-soggiorno"
+                 points="110,416 294,414 303,290 107,290"
+                 onclick="openModal('soggiorno');" />
+        <polygon id="overlay-mansarda"
+                 points="111,261 110,241 205,118 292,237 293,256"
+                 onclick="openModal('mansarda');" />
       </svg>
     </div>
 
@@ -205,6 +237,7 @@
           <label for="contributionAmount">Inserisci l'importo che desideri versare:</label><br>
           <input type="number" id="contributionAmount" min="1" style="width:80px;">
         </div>
+        <!-- Unico tasto per confermare il contributo -->
         <button class="btn" onclick="confirmContribution()">contribuisci</button>
       </div>
     </div>
@@ -217,6 +250,7 @@
         <p>Utilizza questo IBAN:</p>
         <p style="font-size:1.3rem; font-weight:bold;">IT12A1234512345123456789012</p>
         <p>Scansiona il QR Code:</p>
+        <!-- Inserisci qui l'immagine del QR code -->
         <img src="qr.png" alt="QR Code" style="max-width:200px;">
       </div>
     </div>
@@ -242,8 +276,7 @@
       Causale: <strong>Regalo per la casa</strong>
     </p>
     <p>
-      Dopo aver effettuato il bonifico, ti chiediamo di inviarci una mail a 
-      <strong>mialtro@email.com</strong>
+      Dopo aver effettuato il bonifico, ti chiediamo di inviarci una mail a <strong>mialtro@email.com</strong>
       per segnalarci l'importo e aggiornare la barra di avanzamento!
     </p>
   </div>
@@ -253,13 +286,48 @@
   </footer>
 
   <script>
-    // URL dell'API Apps Script
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEx2SyeTTqm54BpS81gP-jFcptPtdEyV1T5aOK0AncUSYWq2gOat0BfrFEH6phw9Xb/exec"; // Sostituisci con il tuo URL
+    // Array con i dati delle stanze
+    const rooms = [
+      {
+        id: "cantina",
+        title: "Cantina",
+        description: "Spazio per vini e conservazione.",
+        goal: 500,
+        collected: 100
+      },
+      {
+        id: "cucina",
+        title: "Cucina",
+        description: "Per cucinare e preparare deliziose ricette.",
+        goal: 800,
+        collected: 300
+      },
+      {
+        id: "sala",
+        title: "Sala",
+        description: "Spazio per accogliere amici e famiglia.",
+        goal: 1000,
+        collected: 400
+      },
+      {
+        id: "soggiorno",
+        title: "Soggiorno",
+        description: "Zona relax e intrattenimento.",
+        goal: 1200,
+        collected: 600
+      },
+      {
+        id: "mansarda",
+        title: "Mansarda",
+        description: "Spazio versatile e accogliente.",
+        goal: 700,
+        collected: 200
+      }
+    ];
 
-    let rooms = [];  // Verrà caricato dal Google Sheet
     let currentRoomId = null;
 
-    // Funzioni per i modali
+    // Apertura del modal per inserire il contributo
     function openModal(roomId) {
       currentRoomId = roomId;
       const roomData = rooms.find(r => r.id === roomId);
@@ -274,33 +342,15 @@
       }
       document.getElementById("modalOverlay").style.display = "flex";
     }
-    
+
+    // Chiude il modal di contributo
     function closeModal() {
       document.getElementById("modalOverlay").style.display = "none";
       currentRoomId = null;
       document.getElementById("contributionAmount").value = "";
     }
-    
-    function openIbanModal() {
-      document.getElementById("ibanModalOverlay").style.display = "flex";
-    }
-    
-    function closeIbanModal() {
-      document.getElementById("ibanModalOverlay").style.display = "none";
-    }
-    
-    function openSuccessModal() {
-      document.getElementById("successModalOverlay").style.display = "flex";
-      setTimeout(function() {
-        closeSuccessModal();
-        openIbanModal();
-      }, 3000);
-    }
-    
-    function closeSuccessModal() {
-      document.getElementById("successModalOverlay").style.display = "none";
-    }
-    
+
+    // Gestisce il contributo inserito
     function confirmContribution() {
       const amountInput = document.getElementById("contributionAmount");
       const amount = parseInt(amountInput.value);
@@ -313,10 +363,19 @@
       closeModal();
       openSuccessModal();
     }
-    
-    // Funzione per renderizzare la lista delle stanze
+
+    // Aggiunge il contributo e aggiorna la UI
+    function addContribution(roomId, amount) {
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+      room.collected += amount;
+      renderListaRegali();
+      updateOverlays();
+    }
+
+    // Renderizza la lista delle stanze
+    const listaRegaliDiv = document.getElementById("listaRegali");
     function renderListaRegali() {
-      const listaRegaliDiv = document.getElementById("listaRegali");
       let html = '<div style="display:flex; flex-wrap:wrap; gap:1rem; justify-content:center;">';
       rooms.forEach(room => {
         const perc = Math.min((room.collected / room.goal) * 100, 100);
@@ -337,8 +396,8 @@
       html += '</div>';
       listaRegaliDiv.innerHTML = html;
     }
-    
-    // Funzione per aggiornare gli overlay in base al progresso
+
+    // Aggiorna l'opacità degli overlay in base al progresso
     function updateOverlays() {
       rooms.forEach(room => {
         const overlayEl = document.getElementById("overlay-" + room.id);
@@ -348,43 +407,31 @@
         overlayEl.style.fillOpacity = 1 - ratio;
       });
     }
-    
-    // Funzione per caricare i dati dal Google Sheet
-    async function loadRoomsFromServer() {
-      try {
-        const response = await fetch(SCRIPT_URL);
-        rooms = await response.json();
-        renderListaRegali();
-        updateOverlays();
-      } catch (err) {
-        console.error("Errore caricamento dati:", err);
-      }
+
+    // Modal per IBAN e QR Code
+    function openIbanModal() {
+      document.getElementById("ibanModalOverlay").style.display = "flex";
     }
-    
-    // Funzione per aggiornare il contributo (POST)
-    async function addContribution(roomId, amount) {
-      const room = rooms.find(r => r.id === roomId);
-      if (!room) return;
-      const newCollected = room.collected + amount;
-      try {
-        const payload = { id: roomId, collected: newCollected };
-        const response = await fetch(SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: { "Content-Type": "application/json" }
-        });
-        const text = await response.text();
-        if (text === "OK") {
-          room.collected = newCollected;
-          renderListaRegali();
-          updateOverlays();
-        } else {
-          alert("Errore dal server: " + text);
-        }
-      } catch (err) {
-        console.error("Errore nella POST:", err);
-        alert("Errore di rete o script");
-      }
+    function closeIbanModal() {
+      document.getElementById("ibanModalOverlay").style.display = "none";
     }
-    
-    // Al caricamento della pag
+
+    // Modal per animazione di successo
+    function openSuccessModal() {
+      document.getElementById("successModalOverlay").style.display = "flex";
+      // Mostra il modal di successo per 3 secondi, poi chiudilo e apri il modal IBAN
+      setTimeout(function() {
+        closeSuccessModal();
+        openIbanModal();
+      }, 3000);
+    }
+    function closeSuccessModal() {
+      document.getElementById("successModalOverlay").style.display = "none";
+    }
+
+    // Inizializzazione
+    renderListaRegali();
+    updateOverlays();
+  </script>
+</body>
+</html>
