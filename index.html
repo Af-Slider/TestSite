@@ -429,9 +429,54 @@
       document.getElementById("successModalOverlay").style.display = "none";
     }
 
+    const SCRIPT_URL = "https://script.google.com/macros/s/XXXXXXXX/exec"; // Sostituisci con il tuo URL
+
+  let rooms = [];
+
+  // Carica i dati dal Google Sheet
+  async function loadRoomsFromServer() {
+    try {
+      const response = await fetch(SCRIPT_URL);
+      rooms = await response.json();
+      renderListaRegali();
+      updateOverlays();
+    } catch (err) {
+      console.error("Errore caricamento dati:", err);
+    }
+  }
+
+  // Quando l'utente contribuisce, aggiorna il valore "collected"
+  async function addContribution(roomId, amount) {
+    const room = rooms.find(r => r.id === roomId);
+    if (!room) return;
+    const newCollected = room.collected + amount;
+    try {
+      const payload = { id: roomId, collected: newCollected };
+      const response = await fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" }
+      });
+      const text = await response.text();
+      if (text === "OK") {
+        room.collected = newCollected;
+        renderListaRegali();
+        updateOverlays();
+      } else {
+        alert("Errore dal server: " + text);
+      }
+    } catch (err) {
+      console.error("Errore nella POST:", err);
+      alert("Errore di rete o script");
+    }
+  }
+
     // Inizializzazione
     renderListaRegali();
     updateOverlays();
+    window.onload = () => {
+    loadRoomsFromServer();
+  };
   </script>
 </body>
 </html>
