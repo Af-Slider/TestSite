@@ -14,7 +14,7 @@
       font-weight: normal;
       font-style: normal;
     }
-
+    
     /* --- Palette di colori scelti dalla tua immagine ---
        Sfondo generale: #FFF1E1 (beige chiaro)
        Header: #FFEDD2 (beige leggermente più scuro)
@@ -269,7 +269,7 @@
       Causale: <strong>Regalo per la casa</strong>
     </p>
     <p>
-      Dopo aver effettuato il bonifico, ti chiediamo di inviarci una mail a
+      Dopo aver effettuato il bonifico, ti chiediamo di inviarci una mail a 
       <strong>mialtro@email.com</strong>
       per segnalarci l'importo e aggiornare la barra di avanzamento!
     </p>
@@ -280,15 +280,15 @@
   </footer>
 
   <script>
-    // Dichiarazione globale: inizialmente l'array delle stanze è vuoto (verrà caricato dal Google Sheet)
+    // Dichiarazione globale: inizialmente l'array delle stanze è vuoto (verrà caricato da Airtable)
     let rooms = [];
     let currentRoomId = null;
 
-    // URL dell'API Apps Script
+    // CONFIGURAZIONE DI AIRTABLE: Sostituisci i placeholder con i tuoi valori
     const AIRTABLE_API_KEY = "patOkAIksLS2FMo6T.e5b0022f31fca889b60aa8db9a1609aef19b9eb23819c37bda188992b5e4f7bf";
-    const BASE_ID = "appaFoS7Gv3HPAj0U";
-    const TABLE_NAME = "LaLista";
-    const AIRTABLE_URL = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+    const AIRTABLE_BASE_ID = "appaFoS7Gv3HPAj0U";
+    const AIRTABLE_TABLE_NAME = "LaLista"; // Assicurati che il nome della tabella corrisponda
+    const AIRTABLE_URL = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE_NAME}`;
 
     // FUNZIONI PER I MODALI
     function openModal(roomId) {
@@ -305,21 +305,21 @@
       }
       document.getElementById("modalOverlay").style.display = "flex";
     }
-
+    
     function closeModal() {
       document.getElementById("modalOverlay").style.display = "none";
       currentRoomId = null;
       document.getElementById("contributionAmount").value = "";
     }
-
+    
     function openIbanModal() {
       document.getElementById("ibanModalOverlay").style.display = "flex";
     }
-
+    
     function closeIbanModal() {
       document.getElementById("ibanModalOverlay").style.display = "none";
     }
-
+    
     function openSuccessModal() {
       document.getElementById("successModalOverlay").style.display = "flex";
       setTimeout(function() {
@@ -327,11 +327,11 @@
         openIbanModal();
       }, 3000);
     }
-
+    
     function closeSuccessModal() {
       document.getElementById("successModalOverlay").style.display = "none";
     }
-
+    
     function confirmContribution() {
       const amountInput = document.getElementById("contributionAmount");
       const amount = parseInt(amountInput.value);
@@ -344,7 +344,7 @@
       closeModal();
       openSuccessModal();
     }
-
+    
     // RENDERIZZAZIONE DELLA LISTA REGALI
     function renderListaRegali() {
       const listaRegaliDiv = document.getElementById("listaRegali");
@@ -368,7 +368,7 @@
       html += '</div>';
       listaRegaliDiv.innerHTML = html;
     }
-
+    
     // AGGIORNA GLI OVERLAY IN BASE AL PROGRESSO
     function updateOverlays() {
       rooms.forEach(room => {
@@ -379,52 +379,68 @@
         overlayEl.style.fillOpacity = 1 - ratio;
       });
     }
-
-    // FUNZIONE PER CARICARE I DATI DAL GOOGLE SHEET
-    async function loadRoomsFromAirtable() {
+    
+    // FUNZIONE PER CARICARE I DATI DA AIRTABLE
+    async function loadRoomsFromServer() {
       try {
         const response = await fetch(AIRTABLE_URL, {
-          headers: { Authorization: `Bearer ${AIRTABLE_API_KEY}` }
+          headers: {
+            Authorization: "Bearer " + AIRTABLE_API_KEY
+          }
         });
-        rooms = await response.json();
+        const data = await response.json();
+        // Mappiamo i record di Airtable nell'array rooms
+        rooms = data.records.map(record => ({
+          recordId: record.id,
+          id: record.fields.id,           // Campo che identifica la stanza (es. "cucina", "sala", etc.)
+          title: record.fields.title,
+          description: record.fields.description,
+          collected: record.fields.collected,
+          goal: record.fields.goal
+        }));
         renderListaRegali();
         updateOverlays();
       } catch (err) {
         console.error("Errore caricamento dati:", err);
       }
     }
-
-    // FUNZIONE PER AGGIORNARE IL CONTRIBUTO (POST)
-    async function addContribution(recordId, currentAmount) {
-      const amount = prompt("Inserisci l'importo da donare:");
-      if (!amount || isNaN(amount) || amount <= 0) {
-        alert("Inserisci un importo valido!");
-        return;
-      }
-      const newAmount = currentAmount + parseInt(amount);
+    
+    // FUNZIONE PER AGGIORNARE IL CONTRIBUTO SU AIRTABLE (PATCH)
+    async function addContribution(roomId, amount) {
+      const room = rooms.find(r => r.id === roomId);
+      if (!room) return;
+      const newCollected = room.collected + amount;
       try {
-        const response = await fetch(`${AIRTABLE_URL}/${recordId}`, {
+        const updateUrl = `${AIRTABLE_URL}/${room.recordId}`;
+        const response = await fetch(updateUrl, {
           method: "PATCH",
           headers: {
-            Authorization: `Bearer ${AIRTABLE_API_KEY}`,
+            "Authorization": "Bearer " + AIRTABLE_API_KEY,
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ fields: { Raccolti: newAmount } })
+          body: JSON.stringify({
+            fields: {
+              collected: newCollected
+            }
+          })
         });
+        const result = await response.json();
         if (response.ok) {
-          loadRoomsFromAirtable();
+          room.collected = newCollected;
+          renderListaRegali();
+          updateOverlays();
         } else {
-          alert("Errore nell'aggiornamento del contributo.");
+          alert("Errore dal server: " + JSON.stringify(result));
         }
       } catch (err) {
-        console.error("Errore nella scrittura:", err);
+        console.error("Errore nell'update:", err);
+        alert("Errore di rete o script");
       }
     }
-
-
-    // All'avvio della pagina, carica i dati dal Google Sheet
+    
+    // All'avvio della pagina, carica i dati da Airtable
     window.onload = () => {
-      loadRoomsFromAirtable;
+      loadRoomsFromServer();
     };
   </script>
 </body>
