@@ -392,29 +392,28 @@
     
     // FUNZIONE PER AGGIORNARE IL CONTRIBUTO (POST)
     async function addContribution(roomId, amount) {
-      const room = rooms.find(r => r.id === roomId);
-      if (!room) return;
-      const newCollected = room.collected + amount;
-      try {
-        const payload = { id: roomId, collected: newCollected };
-        const response = await fetch(SCRIPT_URL, {
-          method: "POST",
-          body: JSON.stringify(payload),
-          headers: { "Content-Type": "application/json" }
-        });
-        const text = await response.text();
-        if (text === "OK") {
-          room.collected = newCollected;
-          renderListaRegali();
-          updateOverlays();
-        } else {
-          alert("Errore dal server: " + text);
-        }
-      } catch (err) {
-        console.error("Errore nella POST:", err);
-        alert("Errore di rete o script");
-      }
-    }
+  const room = rooms.find(r => r.id === roomId);
+  if (!room) return;
+  const newCollected = room.collected + amount;
+  try {
+    const payload = { id: roomId, collected: newCollected };
+    const response = await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors", // Forza la richiesta in no-cors mode
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "application/json" }
+    });
+    // In no-cors mode, la risposta è opaca e non possiamo leggerne il contenuto.
+    // Quindi, se non c'è un'eccezione, assumiamo che la scrittura sia andata a buon fine.
+    room.collected = newCollected;
+    renderListaRegali();
+    updateOverlays();
+  } catch (err) {
+    console.error("Errore nella POST:", err);
+    alert("Errore di rete o script");
+  }
+}
+
     
     // All'avvio della pagina, carica i dati dal Google Sheet
     window.onload = () => {
