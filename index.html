@@ -19,7 +19,7 @@
        Sfondo generale: #FFF1E1 (beige chiaro)
        Header: #FFEDD2 (beige leggermente più scuro)
        Testo principale: #193350 (blu navy scuro)
-       Accenti: #F79B45 (arancione caldo)
+       Accenti: ora usiamo il blu navy per gli elementi interattivi
     */
     body {
       margin: 0;
@@ -58,11 +58,11 @@
     .house-map img {
       max-width: 100%;
       height: auto;
-      border: 3px solid #F79B45; /* Bordo arancione */ 
+      border: 3px solid #193350; /* Cambiato da arancione a blu navy */
       border-radius: 10px;
       display: block;
     }
-    /* Overlay SVG: di base un blu scuro, per coerenza con la palette. */
+    /* Overlay SVG: di base un blu navy con leggera trasparenza */
     .overlay-svg {
       position: absolute;
       top: 0;
@@ -81,9 +81,9 @@
     }
     .overlay-svg polygon:hover {
       transform: scale(1.05);
-      fill: #F79B45;
+      fill: #2A4F6B; /* Blu navy leggermente più chiaro per l'hover */
       fill-opacity: 0.7;
-      stroke: #F79B45;
+      stroke: #2A4F6B;
       stroke-width: 2;
     }
     /* Modal generali */
@@ -132,14 +132,14 @@
       width: 100%;
     }
     .progress-bar-fill {
-      background: #F79B45; /* Riempimento arancione */
+      background: #193350; /* Cambiato da arancione a blu navy */
       height: 100%;
       transition: width 0.3s ease-in-out;
     }
     .btn {
       display: inline-block;
       padding: 0.6rem 1.2rem;
-      background: #F79B45;
+      background: #193350; /* Bottone blu navy */
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
@@ -149,7 +149,7 @@
       cursor: pointer;
     }
     .btn:hover {
-      background: #E65C00;
+      background: #152b43; /* Variante leggermente più scura per l'hover */
     }
     footer {
       text-align: center;
@@ -195,11 +195,10 @@
               coords="214,261,213,241,308,118,395,237,396,256"
               shape="poly"
               onclick="openModal('mansarda'); return false;">
-        <area alt="bagno title="bagno" href="#"
+        <area alt="bagno" title="bagno" href="#"
               coords="213,289,397,414,406,413,210,290"
               shape="poly"
               onclick="openModal('bagno'); return false;">
-        
       </map>
       <!-- SVG Overlay con coordinate spostate di 103px a sinistra -->
       <svg id="houseOverlay" class="overlay-svg"
@@ -221,9 +220,8 @@
                  points="111,261 110,241 205,118 292,237 293,256"
                  onclick="openModal('mansarda');" />
         <polygon id="overlay-bagno"
-                 points="213,289 397,414 406,413 210,290"
+                 points="467,289 462,414 629,413 634,290"
                  onclick="openModal('bagno');" />
-
       </svg>
     </div>
 
@@ -277,14 +275,6 @@
       Intestato a: <strong>Nome Cognome</strong><br>
       Causale: <strong>Regalo per la casa</strong>
     </p>
-    <!-- 
-    <p>
-    //  Dopo aver effettuato il bonifico, ti chiediamo di inviarci una mail a 
-    //  <strong>mialtro@email.com</strong>
-    //  per segnalarci l'importo e aggiornare la barra di avanzamento!
-    </p>
-    -->
-    
   </div>
 
   <footer>
@@ -364,7 +354,7 @@
       rooms.forEach(room => {
         const perc = Math.min((room.collected / room.goal) * 100, 100);
         html += `
-          <div style="border:2px solid #F79B45; border-radius:10px; padding:1rem; width:250px; background:#fff;">
+          <div style="border:2px solid #193350; border-radius:10px; padding:1rem; width:250px; background:#fff;">
             <h3 style="margin-top:0; color:#193350;">${room.title}</h3>
             <p style="color:#193350;">${room.description}</p>
             <div class="progress-bar-container" style="margin-bottom:0.5rem;">
