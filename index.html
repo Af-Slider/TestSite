@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>La nostra futura casa</title>
   <style>
-    /* Importa il font personalizzato (se lo usi).
+    /* Importa il font personalizzato, se lo usi.
        Assicurati di caricare MyCustomFont.woff2 / .woff nel repo e aggiornare il percorso. */
     @font-face {
       font-family: 'MyCustomFont';
@@ -15,11 +15,10 @@
       font-style: normal;
     }
     
-    /* --- Palette di colori scelti dalla tua immagine ---
+    /* --- Palette di colori scelti ---
        Sfondo generale: #FFF1E1 (beige chiaro)
        Header: #FFEDD2 (beige leggermente più scuro)
        Testo principale: #193350 (blu navy scuro)
-       Accenti: utilizziamo il blu navy per gli elementi interattivi e nelle modifiche dell’overlay
     */
     body {
       margin: 0;
@@ -62,9 +61,9 @@
       border-radius: 10px;
       display: block;
     }
-    /* Overlay SVG:
-       - Colore di base: effetto nebbia (bianco, con opacità ridotta)
-       - Al passaggio del mouse: ripristina il colore navy originale (#193350)
+    /* SVG Overlay:
+       - Stato base: colore bianco con opacità 0.5 per effetto "nebbia".
+       - Al passaggio del mouse: il colore passa a blu navy (#193350) con opacità maggiore.
     */
     .overlay-svg {
       position: absolute;
@@ -74,8 +73,8 @@
       height: 100%;
     }
     .overlay-svg polygon {
-      fill: #ffffff;       /* base: bianco */
-      fill-opacity: 0.5;    /* effetto nebbia/incompleto */
+      fill: #ffffff;       /* Colore base: bianco */
+      fill-opacity: 0.5;    /* Massima opacità non superiore al 50% */
       transition: transform 0.3s ease,
                   fill 0.3s ease,
                   fill-opacity 0.3s ease,
@@ -84,9 +83,9 @@
     }
     .overlay-svg polygon:hover {
       transform: scale(1.05);
-      fill: #193350;       /* al passaggio, colore navy */
+      fill: #F79B45; /* Al passaggio del mouse, Riempimento arancione */
       fill-opacity: 0.7;
-      stroke: #193350;
+      stroke: #F79B45;
       stroke-width: 2;
     }
     /* Modal generali */
@@ -199,43 +198,31 @@
               shape="poly"
               onclick="openModal('mansarda'); return false;">
         <area alt="bagno" title="bagno" href="#"
-              coords="213,289,397,414,406,413,210,290"
+              coords="113,289,297,414,306,413,110,290"
               shape="poly"
               onclick="openModal('bagno'); return false;">
       </map>
-      <!-- SVG Overlay con coordinate spostate di 300 px verso sinistra -->
+      <!-- SVG Overlay con le coordinate originali -->
       <svg id="houseOverlay" class="overlay-svg"
            viewBox="0 0 600 800"
            preserveAspectRatio="xMidYMid meet">
-        <!-- Overlay Cantina: coordinate originali "119,737 296,736 298,623 118,623 115,660" -->
-        <!-- Sottraiamo 300 a ciascun valore x: (-181,737 -4,736 -2,623 -182,623 -185,660) -->
         <polygon id="overlay-cantina"
-                 points="-181,737 -4,736 -2,623 -182,623 -185,660"
+                 points="119,737 296,736 298,623 118,623 115,660"
                  onclick="openModal('cantina');" />
-        <!-- Overlay Cucina: originali "119,594 283,593 297,450 109,446 113,541" -->
-        <!-- => (-181,594 -17,593 -3,450 -191,446 -187,541) -->
         <polygon id="overlay-cucina"
-                 points="-181,594 -17,593 -3,450 -191,446 -187,541"
+                 points="119,594 283,593 297,450 109,446 113,541"
                  onclick="openModal('cucina');" />
-        <!-- Overlay Sala: originali "471,591 477,448 305,448 301,592" -->
-        <!-- => (171,591 177,448 5,448 1,592) -->
         <polygon id="overlay-sala"
-                 points="171,591 177,448 5,448 1,592"
+                 points="471,591 477,448 305,448 301,592"
                  onclick="openModal('sala');" />
-        <!-- Overlay Soggiorno: originali "110,416 294,414 303,290 107,290" -->
-        <!-- => (-190,416 -6,414 3,290 -193,290) -->
         <polygon id="overlay-soggiorno"
-                 points="-190,416 -6,414 3,290 -193,290"
+                 points="110,416 294,414 303,290 107,290"
                  onclick="openModal('soggiorno');" />
-        <!-- Overlay Mansarda: originali "111,261 110,241 205,118 292,237 293,256" -->
-        <!-- => (-189,261 -190,241 -95,118 -8,237 -7,256) -->
         <polygon id="overlay-mansarda"
-                 points="-189,261 -190,241 -95,118 -8,237 -7,256"
+                 points="111,261 110,241 205,118 292,237 293,256"
                  onclick="openModal('mansarda');" />
-        <!-- Overlay Bagno: originali "467,289 462,414 629,413 634,290" -->
-        <!-- => (167,289 162,414 329,413 334,290) -->
         <polygon id="overlay-bagno"
-                 points="167,289 162,414 329,413 334,290"
+                 points="367,289 362,414 529,413 534,290"
                  onclick="openModal('bagno');" />
       </svg>
     </div>
@@ -409,7 +396,7 @@
         // Mappiamo i record di Airtable nell'array rooms
         rooms = data.records.map(record => ({
           recordId: record.id,
-          id: record.fields.id,           // Campo che identifica la stanza (es. "cucina", "sala", etc.)
+          id: record.fields.id,           // Campo che identifica la stanza (es. "cucina", "sala", ecc.)
           title: record.fields.title,
           description: record.fields.description,
           collected: record.fields.collected,
