@@ -379,10 +379,26 @@
       rooms.forEach(room => {
         const overlayEl = document.getElementById("overlay-" + room.id);
         if (!overlayEl) return;
-        let ratio = room.collected / room.goal;
-        if (ratio > 1) ratio = 1;
-        overlayEl.style.fillOpacity = 1 - ratio;
-      });
+    
+        // Se la stanza ha raggiunto l’obiettivo
+        if (room.collected >= room.goal) {
+          // Riempimento verde tenue (scegli un colore che preferisci)
+          overlayEl.style.fill = "#b3ffb3";
+          overlayEl.style.fillOpacity = 0.5;
+        } else {
+          // Riempimento di base
+          overlayEl.style.fill = "#ffffff";
+          overlayEl.style.fillOpacity = 0.5;
+        }
+      });    
+      
+      //rooms.forEach(room => {
+        //const overlayEl = document.getElementById("overlay-" + room.id);
+        //if (!overlayEl) return;
+        //let ratio = 0.5* (room.collected / room.goal);
+        //if (ratio > 1) ratio = 1;
+        //overlayEl.style.fillOpacity = 1 - ratio;
+      //});
     }
     
     // FUNZIONE PER CARICARE I DATI DA AIRTABLE
