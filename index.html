@@ -74,7 +74,9 @@
     }
     .overlay-svg polygon {
       fill: #ffffff;       /* Colore base: bianco */
-      fill-opacity: 0.5;    /* Massima opacità non superiore al 50% */
+      fill-opacity: 0.3;    /* Massima opacità non superiore al 30% */
+      stroke: #ECEEF0;      /* Imposta il colore del bordo */
+      stroke-width: 2px;    /* Imposta lo spessore del bordo */
       transition: transform 0.3s ease,
                   fill 0.3s ease,
                   fill-opacity 0.3s ease,
@@ -198,7 +200,7 @@
               shape="poly"
               onclick="openModal('mansarda'); return false;">
         <area alt="bagno" title="bagno" href="#"
-              coords="113,289,297,414,306,413,110,290"
+              coords="33,289,217,414,223,413,30,290"
               shape="poly"
               onclick="openModal('bagno'); return false;">
       </map>
@@ -222,7 +224,7 @@
                  points="111,261 110,241 205,118 292,237 293,256"
                  onclick="openModal('mansarda');" />
         <polygon id="overlay-bagno"
-                 points="367,289 362,414 529,413 534,290"
+                 points="287,289 282,414 450,413 454,290"
                  onclick="openModal('bagno');" />
       </svg>
     </div>
