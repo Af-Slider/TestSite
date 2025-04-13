@@ -19,7 +19,7 @@
        Sfondo generale: #FFF1E1 (beige chiaro)
        Header: #FFEDD2 (beige leggermente più scuro)
        Testo principale: #193350 (blu navy scuro)
-       Accenti: ora usiamo il blu navy per gli elementi interattivi
+       Accenti: utilizziamo il blu navy per gli elementi interattivi e nelle modifiche dell’overlay
     */
     body {
       margin: 0;
@@ -58,11 +58,14 @@
     .house-map img {
       max-width: 100%;
       height: auto;
-      border: 3px solid #193350; /* Cambiato da arancione a blu navy */
+      border: 3px solid #193350; /* Bordo blu navy */
       border-radius: 10px;
       display: block;
     }
-    /* Overlay SVG: di base un blu navy con leggera trasparenza */
+    /* Overlay SVG:
+       - Colore di base: effetto nebbia (bianco, con opacità ridotta)
+       - Al passaggio del mouse: ripristina il colore navy originale (#193350)
+    */
     .overlay-svg {
       position: absolute;
       top: 0;
@@ -71,8 +74,8 @@
       height: 100%;
     }
     .overlay-svg polygon {
-      fill: #193350;
-      fill-opacity: 0.7;
+      fill: #ffffff;       /* base: bianco */
+      fill-opacity: 0.5;    /* effetto nebbia/incompleto */
       transition: transform 0.3s ease,
                   fill 0.3s ease,
                   fill-opacity 0.3s ease,
@@ -81,9 +84,9 @@
     }
     .overlay-svg polygon:hover {
       transform: scale(1.05);
-      fill: #2A4F6B; /* Blu navy leggermente più chiaro per l'hover */
+      fill: #193350;       /* al passaggio, colore navy */
       fill-opacity: 0.7;
-      stroke: #2A4F6B;
+      stroke: #193350;
       stroke-width: 2;
     }
     /* Modal generali */
@@ -132,14 +135,14 @@
       width: 100%;
     }
     .progress-bar-fill {
-      background: #193350; /* Cambiato da arancione a blu navy */
+      background: #193350; /* Barra di avanzamento blu navy */
       height: 100%;
       transition: width 0.3s ease-in-out;
     }
     .btn {
       display: inline-block;
       padding: 0.6rem 1.2rem;
-      background: #193350; /* Bottone blu navy */
+      background: #193350;  /* Bottone blu navy */
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
@@ -149,7 +152,7 @@
       cursor: pointer;
     }
     .btn:hover {
-      background: #152b43; /* Variante leggermente più scura per l'hover */
+      background: #152b43;
     }
     footer {
       text-align: center;
@@ -200,27 +203,39 @@
               shape="poly"
               onclick="openModal('bagno'); return false;">
       </map>
-      <!-- SVG Overlay con coordinate spostate di 103px a sinistra -->
+      <!-- SVG Overlay con coordinate spostate di 300 px verso sinistra -->
       <svg id="houseOverlay" class="overlay-svg"
            viewBox="0 0 600 800"
            preserveAspectRatio="xMidYMid meet">
+        <!-- Overlay Cantina: coordinate originali "119,737 296,736 298,623 118,623 115,660" -->
+        <!-- Sottraiamo 300 a ciascun valore x: (-181,737 -4,736 -2,623 -182,623 -185,660) -->
         <polygon id="overlay-cantina"
-                 points="119,737 296,736 298,623 118,623 115,660"
+                 points="-181,737 -4,736 -2,623 -182,623 -185,660"
                  onclick="openModal('cantina');" />
+        <!-- Overlay Cucina: originali "119,594 283,593 297,450 109,446 113,541" -->
+        <!-- => (-181,594 -17,593 -3,450 -191,446 -187,541) -->
         <polygon id="overlay-cucina"
-                 points="119,594 283,593 297,450 109,446 113,541"
+                 points="-181,594 -17,593 -3,450 -191,446 -187,541"
                  onclick="openModal('cucina');" />
+        <!-- Overlay Sala: originali "471,591 477,448 305,448 301,592" -->
+        <!-- => (171,591 177,448 5,448 1,592) -->
         <polygon id="overlay-sala"
-                 points="471,591 477,448 305,448 301,592"
+                 points="171,591 177,448 5,448 1,592"
                  onclick="openModal('sala');" />
+        <!-- Overlay Soggiorno: originali "110,416 294,414 303,290 107,290" -->
+        <!-- => (-190,416 -6,414 3,290 -193,290) -->
         <polygon id="overlay-soggiorno"
-                 points="110,416 294,414 303,290 107,290"
+                 points="-190,416 -6,414 3,290 -193,290"
                  onclick="openModal('soggiorno');" />
+        <!-- Overlay Mansarda: originali "111,261 110,241 205,118 292,237 293,256" -->
+        <!-- => (-189,261 -190,241 -95,118 -8,237 -7,256) -->
         <polygon id="overlay-mansarda"
-                 points="111,261 110,241 205,118 292,237 293,256"
+                 points="-189,261 -190,241 -95,118 -8,237 -7,256"
                  onclick="openModal('mansarda');" />
+        <!-- Overlay Bagno: originali "467,289 462,414 629,413 634,290" -->
+        <!-- => (167,289 162,414 329,413 334,290) -->
         <polygon id="overlay-bagno"
-                 points="467,289 462,414 629,413 634,290"
+                 points="167,289 162,414 329,413 334,290"
                  onclick="openModal('bagno');" />
       </svg>
     </div>
