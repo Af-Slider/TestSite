@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>La nostra futura casa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
   <style>
     /* Importa il font personalizzato, se lo usi.
        Assicurati di caricare MyCustomFont.woff2 / .woff nel repo e aggiornare il percorso. */
@@ -15,20 +16,18 @@
       font-style: normal;
     } 
     
-    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
-    
-    /* --- Palette di colori scelti ---
-       Sfondo generale: #FFF1E1 (beige chiaro)
-       Header: #FFEDD2 (beige leggermente più scuro)
-       Testo principale: #193350 (blu navy scuro)
-    */
-    
     .caveat-<uniquifier> {
       font-family: "Caveat", cursive;
       font-optical-sizing: auto;
       font-weight: <weight>;
       font-style: normal;
     }
+    
+    /* --- Palette di colori scelti ---
+       Sfondo generale: #FFF1E1 (beige chiaro)
+       Header: #FFEDD2 (beige leggermente più scuro)
+       Testo principale: #193350 (blu navy scuro)
+    */
     body {
       margin: 0;
       padding: 0;
@@ -150,7 +149,7 @@
       transition: width 0.3s ease-in-out;
     }
     .btn {
-      font-family: 'Caveat', cursive;
+      font-family: 'Caveat';
       display: inline-block;
       padding: 0.6rem 1.2rem;
       background: #193350;  /* Bottone blu navy */
@@ -286,11 +285,9 @@
     <hr style="margin:2rem 0;">
 
     <!-- Informazioni Bonifico -->
-    <p style="font-family: 'Caveat', cursive;"> Di seguito trovi le coordinate per effettuare il bonifico: </p>
-    <p>
-      IBAN: <strong>IT65I0306920502100000011630</strong><br>
-      Intestato a: <strong>Fulvio Airaghi</strong><br>
-    </p>
+    <p class="caveat-text"> Di seguito trovi le coordinate per effettuare il bonifico: </p>
+      <p class="caveat-text">IBAN: <strong>IT65I0306920502100000011630</strong><br></p>
+      <p class="caveat-text">Intestato a: <strong>Fulvio Airaghi</strong><br></p>
   </div>
 
   <footer>
