@@ -13,9 +13,10 @@
            url('MyCustomFont.woff') format('woff');
       font-weight: normal;
       font-style: normal;
-    }
-    
-    @import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+    } 
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
+    </style>
 
     /* --- Palette di colori scelti ---
        Sfondo generale: #FFF1E1 (beige chiaro)
@@ -254,8 +255,7 @@
     <div class="modal-overlay" id="ibanModalOverlay">
       <div class="modal" id="ibanModalContent">
         <button class="close-btn" onclick="closeIbanModal()">×</button>
-        <font-family: 'Caveat', cursive>
-        <h2>Effettua il bonifico</h2>
+        <p style="font-family: 'Caveat', cursive;">Effettua il bonifico</p>
         <p>Utilizzando le seguenti coordinate:</p>
         <p style="font-size:1.3rem; font-weight:bold;">IBAN: IT65I0306920502100000011630</p>
         <p>Intestatario: Fulvio Airaghi
