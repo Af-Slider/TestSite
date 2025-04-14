@@ -15,6 +15,8 @@
       font-style: normal;
     }
     
+    @import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+
     /* --- Palette di colori scelti ---
        Sfondo generale: #FFF1E1 (beige chiaro)
        Header: #FFEDD2 (beige leggermente più scuro)
@@ -37,7 +39,7 @@
     h1 {
       margin: 0;
       /* Aumentato di 10pt rispetto al valore originale */
-      font-size: calc(2.5rem + 10pt);
+      font-size: calc(2rem + 10pt);
     }
     .intro {
       margin-top: 0.5rem;
@@ -141,6 +143,7 @@
       transition: width 0.3s ease-in-out;
     }
     .btn {
+      font-family: 'Caveat', cursive;
       display: inline-block;
       padding: 0.6rem 1.2rem;
       background: #193350;  /* Bottone blu navy */
@@ -165,7 +168,7 @@
 </head>
 <body>
   <header>
-    <h1>La nostra futura casa</h1>
+    <h1>LA NOSTRA FUTURA CASA</h1>
     <p class="intro">
       <strong> ciao! Benvenuto nella nostra futura casa! Come dici? Vuoi aiutarci a costruirla??<br>
       Ma wow, che gentile! Prego, scegli pure come contribuire :)<strong>
@@ -251,8 +254,9 @@
     <div class="modal-overlay" id="ibanModalOverlay">
       <div class="modal" id="ibanModalContent">
         <button class="close-btn" onclick="closeIbanModal()">×</button>
+        <font-family: 'Caveat', cursive>
         <h2>Effettua il bonifico</h2>
-        <p>Utilizza le seguenti coordinate:</p>
+        <p>Utilizzando le seguenti coordinate:</p>
         <p style="font-size:1.3rem; font-weight:bold;">IBAN: IT65I0306920502100000011630</p>
         <p>Intestatario: Fulvio Airaghi
         <!-- 
@@ -270,12 +274,13 @@
     </div>
 
     <!-- Lista Regali / Sezioni -->
-    <h2 style="text-align:center; margin-bottom:1rem;">Lista regali / sezioni</h2>
+    <h2 style="text-align:center; margin-bottom:1rem;">Lista regali </h2>
     <div id="listaRegali"></div>
 
     <hr style="margin:2rem 0;">
 
     <!-- Informazioni Bonifico -->
+    <font-family: 'Caveat', cursive>
     <h3>Di seguito trovi le coordinate per effettuare il bonifico: </h3>
     <p>
       IBAN: <strong>IT65I0306920502100000011630</strong><br>
