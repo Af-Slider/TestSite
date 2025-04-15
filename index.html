@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>La nostra futura casa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
   <style>
-    /* Importa il font personalizzato (se lo usi).
+    /* Importa il font personalizzato, se lo usi.
        Assicurati di caricare MyCustomFont.woff2 / .woff nel repo e aggiornare il percorso. */
     @font-face {
       font-family: 'MyCustomFont';
@@ -13,13 +14,26 @@
            url('MyCustomFont.woff') format('woff');
       font-weight: normal;
       font-style: normal;
+    } 
+    @font-face {
+      font-family: 'MyCustomFont2';
+      src: url('MyCustomFont2.woff2') format('woff2'),
+           url('MyCustomFont2.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    } 
+    
+    .caveat-<uniquifier> {
+      font-family: "Caveat", cursive;
+      font-optical-sizing: auto;
+      font-weight: <weight>;
+      font-style: normal;
     }
     
-    /* --- Palette di colori scelti dalla tua immagine ---
+    /* --- Palette di colori scelti ---
        Sfondo generale: #FFF1E1 (beige chiaro)
        Header: #FFEDD2 (beige leggermente più scuro)
        Testo principale: #193350 (blu navy scuro)
-       Accenti: #F79B45 (arancione caldo)
     */
     body {
       margin: 0;
@@ -27,7 +41,7 @@
       font-family: 'MyCustomFont', "Comic Sans MS", cursive;
       background: #FFF1E1;
       color: #193350;
-      font-size: 1.1rem;
+      font-size: 1.4rem;
     }
     header {
       text-align: center;
@@ -38,11 +52,11 @@
     h1 {
       margin: 0;
       /* Aumentato di 10pt rispetto al valore originale */
-      font-size: calc(2.5rem + 10pt);
+      font-size: calc(2rem + 10pt);
     }
     .intro {
       margin-top: 0.5rem;
-      font-size: 1.2rem;
+      font-size: 1.7rem;
     }
     .container {
       max-width: 900px;
@@ -58,11 +72,14 @@
     .house-map img {
       max-width: 100%;
       height: auto;
-      border: 3px solid #F79B45; /* Bordo arancione */
+      border: 3px solid #193350; /* Bordo blu navy */
       border-radius: 10px;
       display: block;
     }
-    /* Overlay SVG: di base un blu scuro, per coerenza con la palette. */
+    /* SVG Overlay:
+       - Stato base: colore bianco con opacità 0.5 per effetto "nebbia".
+       - Al passaggio del mouse: il colore passa a blu navy (#193350) con opacità maggiore.
+    */
     .overlay-svg {
       position: absolute;
       top: 0;
@@ -71,8 +88,10 @@
       height: 100%;
     }
     .overlay-svg polygon {
-      fill: #193350;
-      fill-opacity: 1;
+      fill: #ffffff;       /* Colore base: bianco */
+      fill-opacity: 0.3;    /* Massima opacità non superiore al 30% */
+      stroke: #ECEEF0;      /* Imposta il colore del bordo */
+      stroke-width: 2px;    /* Imposta lo spessore del bordo */
       transition: transform 0.3s ease,
                   fill 0.3s ease,
                   fill-opacity 0.3s ease,
@@ -81,7 +100,7 @@
     }
     .overlay-svg polygon:hover {
       transform: scale(1.05);
-      fill: #F79B45;
+      fill: #F79B45; /* Al passaggio del mouse, Riempimento arancione */
       fill-opacity: 0.7;
       stroke: #F79B45;
       stroke-width: 2;
@@ -124,6 +143,7 @@
       color: #193350;
     }
     .progress-bar-container {
+      font-family: 'MyCustomFont2';
       background: #eee;
       border-radius: 20px;
       margin: 1rem 0;
@@ -132,14 +152,15 @@
       width: 100%;
     }
     .progress-bar-fill {
-      background: #F79B45; /* Riempimento arancione */
+      background: #193350; /* Barra di avanzamento blu navy */
       height: 100%;
       transition: width 0.3s ease-in-out;
     }
     .btn {
+      font-family: 'Caveat';
       display: inline-block;
       padding: 0.6rem 1.2rem;
-      background: #F79B45;
+      background: #193350;  /* Bottone blu navy */
       color: #fff;
       text-decoration: none;
       border-radius: 5px;
@@ -149,7 +170,7 @@
       cursor: pointer;
     }
     .btn:hover {
-      background: #E65C00;
+      background: #152b43;
     }
     footer {
       text-align: center;
@@ -161,10 +182,10 @@
 </head>
 <body>
   <header>
-    <h1>La nostra futura casa</h1>
+    <h1>LA NOSTRA FUTURA CASA</h1>
     <p class="intro">
-      ciao! Benvenuto nella nostra futura casa! Come dici? Vuoi aiutarci a costruirla??<br>
-      Ma wow, che gentile! Prego, scegli pure come contribuire :)
+      <strong> ciao! Benvenuto nella nostra futura casa! Come dici? Vuoi aiutarci a costruirla??<br>
+      Ma wow, che gentile! Prego, scegli pure come contribuire :)<strong>
     </p>
   </header>
 
@@ -195,8 +216,12 @@
               coords="214,261,213,241,308,118,395,237,396,256"
               shape="poly"
               onclick="openModal('mansarda'); return false;">
+        <area alt="bagno" title="bagno" href="#"
+              coords="63,289,250,414,253,413,60,290"
+              shape="poly"
+              onclick="openModal('bagno'); return false;">
       </map>
-      <!-- SVG Overlay con coordinate spostate di 103px a sinistra -->
+      <!-- SVG Overlay con le coordinate originali -->
       <svg id="houseOverlay" class="overlay-svg"
            viewBox="0 0 600 800"
            preserveAspectRatio="xMidYMid meet">
@@ -215,6 +240,9 @@
         <polygon id="overlay-mansarda"
                  points="111,261 110,241 205,118 292,237 293,256"
                  onclick="openModal('mansarda');" />
+        <polygon id="overlay-bagno"
+                 points="307,289 302,414 480,413 484,290"
+                 onclick="openModal('bagno');" />
       </svg>
     </div>
 
@@ -240,11 +268,14 @@
     <div class="modal-overlay" id="ibanModalOverlay">
       <div class="modal" id="ibanModalContent">
         <button class="close-btn" onclick="closeIbanModal()">×</button>
-        <h2>Effettua il bonifico</h2>
-        <p>Utilizza questo IBAN:</p>
-        <p style="font-size:1.3rem; font-weight:bold;">IT12A1234512345123456789012</p>
-        <p>Scansiona il QR Code:</p>
+        <p style="font-family: 'Caveat', cursive;">Effettua il bonifico</p>
+        <p>Utilizzando le seguenti coordinate:</p>
+        <p style="font-size:1.3rem; font-weight:bold;">IBAN: IT65I0306920502100000011630</p>
+        <p>Intestatario: Fulvio Airaghi
+        <!-- 
+          <p>Oppure scansiona il QR Code qui sotto:</p>
         <img src="qr.png" alt="QR Code" style="max-width:200px;">
+          -->
       </div>
     </div>
 
@@ -256,23 +287,15 @@
     </div>
 
     <!-- Lista Regali / Sezioni -->
-    <h2 style="text-align:center; margin-bottom:1rem;">Lista regali / sezioni</h2>
+    <h2 style="text-align:center; margin-bottom:1rem;">Lista regali </h2>
     <div id="listaRegali"></div>
 
     <hr style="margin:2rem 0;">
 
     <!-- Informazioni Bonifico -->
-    <h3>Come effettuare il bonifico</h3>
-    <p>
-      IBAN: <strong>IT12A1234512345123456789012</strong><br>
-      Intestato a: <strong>Nome Cognome</strong><br>
-      Causale: <strong>Regalo per la casa</strong>
-    </p>
-    <p>
-      Dopo aver effettuato il bonifico, ti chiediamo di inviarci una mail a 
-      <strong>mialtro@email.com</strong>
-      per segnalarci l'importo e aggiornare la barra di avanzamento!
-    </p>
+    <p class="caveat-text"> Di seguito trovi le coordinate per effettuare il bonifico: </p>
+      <p class="caveat-text">IBAN: <strong>IT65I0306920502100000011630</strong><br></p>
+      <p class="caveat-text">Intestato a: <strong>Fulvio Airaghi</strong><br></p>
   </div>
 
   <footer>
@@ -352,7 +375,7 @@
       rooms.forEach(room => {
         const perc = Math.min((room.collected / room.goal) * 100, 100);
         html += `
-          <div style="border:2px solid #F79B45; border-radius:10px; padding:1rem; width:250px; background:#fff;">
+          <div style="border:2px solid #193350; border-radius:10px; padding:1rem; width:250px; background:#fff;">
             <h3 style="margin-top:0; color:#193350;">${room.title}</h3>
             <p style="color:#193350;">${room.description}</p>
             <div class="progress-bar-container" style="margin-bottom:0.5rem;">
@@ -374,10 +397,26 @@
       rooms.forEach(room => {
         const overlayEl = document.getElementById("overlay-" + room.id);
         if (!overlayEl) return;
-        let ratio = room.collected / room.goal;
-        if (ratio > 1) ratio = 1;
-        overlayEl.style.fillOpacity = 1 - ratio;
-      });
+    
+        // Se la stanza ha raggiunto l’obiettivo
+        if (room.collected >= room.goal) {
+          // Riempimento verde tenue (scegli un colore che preferisci)
+          overlayEl.style.fill = "#b3ffb3";
+          overlayEl.style.fillOpacity = 0.5;
+        } else {
+          // Riempimento di base
+          overlayEl.style.fill = "#ffffff";
+          overlayEl.style.fillOpacity = 0.5;
+        }
+      });    
+      
+      //rooms.forEach(room => {
+        //const overlayEl = document.getElementById("overlay-" + room.id);
+        //if (!overlayEl) return;
+        //let ratio = 0.5* (room.collected / room.goal);
+        //if (ratio > 1) ratio = 1;
+        //overlayEl.style.fillOpacity = 1 - ratio;
+      //});
     }
     
     // FUNZIONE PER CARICARE I DATI DA AIRTABLE
@@ -392,7 +431,7 @@
         // Mappiamo i record di Airtable nell'array rooms
         rooms = data.records.map(record => ({
           recordId: record.id,
-          id: record.fields.id,           // Campo che identifica la stanza (es. "cucina", "sala", etc.)
+          id: record.fields.id,           // Campo che identifica la stanza (es. "cucina", "sala", ecc.)
           title: record.fields.title,
           description: record.fields.description,
           collected: record.fields.collected,
