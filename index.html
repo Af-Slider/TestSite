@@ -15,6 +15,13 @@
       font-weight: normal;
       font-style: normal;
     } 
+    @font-face {
+      font-family: 'MyCustomFont2';
+      src: url('MyCustomFont2.woff2') format('woff2'),
+           url('MyCustomFont2.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    } 
     
     .caveat-<uniquifier> {
       font-family: "Caveat", cursive;
@@ -49,7 +56,7 @@
     }
     .intro {
       margin-top: 0.5rem;
-      font-size: 2.0rem;
+      font-size: 1.7rem;
     }
     .container {
       max-width: 900px;
@@ -136,6 +143,7 @@
       color: #193350;
     }
     .progress-bar-container {
+      font-family: 'MyCustomFont2';
       background: #eee;
       border-radius: 20px;
       margin: 1rem 0;
