@@ -26,7 +26,7 @@
     .caveat-text {
       font-family: "Caveat", cursive;
       font-optical-sizing: auto;
-      font-weight: <weight>;
+      font-weight: 400;
       font-style: normal;
     }
     
@@ -375,7 +375,7 @@
       rooms.forEach(room => {
         const perc = Math.min((room.collected / room.goal) * 100, 100);
         html += `
-          <div style="border:2px solid #193350; border-radius:10px; padding:1rem; width:250px; background:#fff;">
+          <div class="caveat-text" style="border:2px solid #193350; border-radius:10px; padding:1rem; width:250px; background:#fff;">
             <h3 style="margin-top:0; color:#193350;">${room.title}</h3>
             <p style="color:#193350;">${room.description}</p>
             <div class="progress-bar-container" style="margin-bottom:0.5rem;">
