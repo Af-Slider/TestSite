@@ -270,8 +270,8 @@
         <button class="close-btn" onclick="closeIbanModal()">×</button>
         <p style="font-family: 'Caveat', cursive;">Effettua il bonifico</p>
         <p>Utilizzando le seguenti coordinate:</p>
-        <p style="font-size:1.3rem; font-weight:bold;">IBAN: IT65I0306920502100000011630</p>
-        <p>Intestatario: Fulvio Airaghi
+        <p class="caveat-text" style="font-size:1.3rem; font-weight:bold;">IBAN: IT65I0306920502100000011630</p>
+        <p class="caveat-text"> Intestatario: Fulvio Airaghi</p>
         <!-- 
           <p>Oppure scansiona il QR Code qui sotto:</p>
         <img src="qr.png" alt="QR Code" style="max-width:200px;">
@@ -375,7 +375,7 @@
       rooms.forEach(room => {
         const perc = Math.min((room.collected / room.goal) * 100, 100);
         html += `
-          <div class="caveat-text" style="border:2px solid #193350; border-radius:10px; padding:1rem; width:250px; background:#fff;">
+          <div class="MyCustomFont2" style="border:2px solid #193350; border-radius:10px; padding:1rem; width:250px; background:#fff;">
             <h3 style="margin-top:0; color:#193350;">${room.title}</h3>
             <p style="color:#193350;">${room.description}</p>
             <div class="progress-bar-container" style="margin-bottom:0.5rem;">
