@@ -404,13 +404,14 @@
         if (room.collected >= room.goal) {
           // Riempimento verde tenue (scegli un colore che preferisci)
           overlayEl.style.fill = "#b3ffb3";
-          overlayEl.style.fillOpacity = 0.5;
+          overlayEl.style.fillOpacity = 0.2;
           overlayEl.style.stroke = "#006400";      // darkgreen
-          overlayEl.style.strokeWidth = "4px";     // spessore del bordo
+          overlayEl.style.strokeWidth = "6px";     // spessore del bordo
         } else {
           // Riempimento di base
           overlayEl.style.fill = "#ffffff";
-          overlayEl.style.fillOpacity = 0.5;
+          overlayEl.style.strokeWidth = "4px";     // spessore del bordo
+          overlayEl.style.fillOpacity = 0.3;
         }
       });    
       
