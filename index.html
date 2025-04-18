@@ -195,50 +195,56 @@
     <!-- Sezione Mappa Casa -->
     <div class="house-map">
       <!-- Immagine della casa -->
-      <img id="houseImage" src="casa2.jpg" usemap="#image-map" alt="Mappa interattiva della casa" />
+      <img id="houseImage" src="casa.jpg" usemap="#image-map" alt="Mappa interattiva della casa" />
       <!-- Image Map con le coordinate fornite -->
       <map name="image-map">
-              <area alt="cantina" title="cantina" href="#"
-              coords="2520,3024,2449,2472,4061,2477,4017,3015"
-              shape="poly" onclick="openModal('cantina'); return false;">
-        <area alt="soggiorno" title="soggiorno" href="#"
-              coords="872,2393,766,1867,2303,1854,2365,2393"
-              shape="poly" onclick="openModal('soggiorno'); return false;">
-        <area alt="salotto" title="salotto" href="#"
-              coords="2440,2388,2387,1867,4101,1885,4061,2384"
-              shape="poly" onclick="openModal('salotto'); return false;">
+        <area alt="cantina" title="cantina" href="#"
+              coords="222,737,399,736,401,623,221,623,218,660"
+              shape="poly"
+              onclick="openModal('cantina'); return false;">
         <area alt="cucina" title="cucina" href="#"
-              coords="775,1801,656,1254,2211,1218,2277,1806"
-              shape="poly" onclick="openModal('cucina'); return false;">
-        <area alt="camera" title="camera" href="#"
-              coords="2387,1766,2312,1218,4212,1227,4132,1766"
-              shape="poly" onclick="openModal('camera'); return false;">
+              coords="222,594,386,593,400,450,212,446,216,541"
+              shape="poly"
+              onclick="openModal('cucina'); return false;">
+        <area alt="sala" title="sala" href="#"
+              coords="574,591,580,448,408,448,404,592"
+              shape="poly"
+              onclick="openModal('sala'); return false;">
+        <area alt="soggiorno" title="soggiorno" href="#"
+              coords="213,416,397,414,406,290,210,290"
+              shape="poly"
+              onclick="openModal('soggiorno'); return false;">
         <area alt="mansarda" title="mansarda" href="#"
-              coords="2299,1161,3231,331,4181,1139"
-              shape="poly" onclick="openModal('mansarda'); return false;">
+              coords="214,261,213,241,308,118,395,237,396,256"
+              shape="poly"
+              onclick="openModal('mansarda'); return false;">
+        <area alt="bagno" title="bagno" href="#"
+              coords="63,289,250,414,253,413,60,290"
+              shape="poly"
+              onclick="openModal('bagno'); return false;">
       </map>
       <!-- SVG Overlay con le coordinate originali -->
       <svg id="houseOverlay" class="overlay-svg"
-           viewBox="0 0 4212 3024"
+           viewBox="0 0 600 800"
            preserveAspectRatio="xMidYMid meet">
         <polygon id="overlay-cantina"
-                   points="2520,3024 2449,2472 4061,2477 4017,3015"
-                   onclick="openModal('cantina');" />
-          <polygon id="overlay-soggiorno"
-                   points="872,2393 766,1867 2303,1854 2365,2393"
-                   onclick="openModal('soggiorno');" />
-          <polygon id="overlay-salotto"
-                   points="2440,2388 2387,1867 4101,1885 4061,2384"
-                   onclick="openModal('salotto');" />
-          <polygon id="overlay-cucina"
-                   points="775,1801 656,1254 2211,1218 2277,1806"
-                   onclick="openModal('cucina');" />
-          <polygon id="overlay-camera"
-                   points="2387,1766 2312,1218 4212,1227 4132,1766"
-                   onclick="openModal('camera');" />
-          <polygon id="overlay-mansarda"
-                   points="2299,1161 3231,331 4181,1139"
-                   onclick="openModal('mansarda');" />
+                 points="119,737 296,736 298,623 118,623 115,660"
+                 onclick="openModal('cantina');" />
+        <polygon id="overlay-cucina"
+                 points="119,594 283,593 297,450 109,446 113,541"
+                 onclick="openModal('cucina');" />
+        <polygon id="overlay-sala"
+                 points="471,591 477,448 305,448 301,592"
+                 onclick="openModal('sala');" />
+        <polygon id="overlay-soggiorno"
+                 points="110,416 294,414 303,290 107,290"
+                 onclick="openModal('soggiorno');" />
+        <polygon id="overlay-mansarda"
+                 points="111,261 110,241 205,118 292,237 293,256"
+                 onclick="openModal('mansarda');" />
+        <polygon id="overlay-bagno"
+                 points="307,289 302,414 480,413 484,290"
+                 onclick="openModal('bagno');" />
       </svg>
     </div>
 
@@ -377,7 +383,7 @@
             <div class="progress-bar-container" style="margin-bottom:0.5rem;">
               <div class="progress-bar-fill" style="width:${perc}%;"></div>
             </div>
-            <p style="font-size:0.9rem; color:#193350;">
+            <p style="font-size:1.3rem; color:#193350;">
               <strong>${room.collected}</strong> / <strong>${room.goal}</strong> € raccolti
             </p>
             <button class="btn" onclick="openModal('${room.id}')">contribuisci</button>
@@ -399,6 +405,8 @@
           // Riempimento verde tenue (scegli un colore che preferisci)
           overlayEl.style.fill = "#b3ffb3";
           overlayEl.style.fillOpacity = 0.5;
+          overlayEl.style.stroke = "#006400";      // darkgreen
+          overlayEl.style.strokeWidth = "4px";     // spessore del bordo
         } else {
           // Riempimento di base
           overlayEl.style.fill = "#ffffff";
