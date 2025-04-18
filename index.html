@@ -383,7 +383,7 @@
             <div class="progress-bar-container" style="margin-bottom:0.5rem;">
               <div class="progress-bar-fill" style="width:${perc}%;"></div>
             </div>
-            <p style="font-size:0.9rem; color:#193350;">
+            <p style="font-size:1.3rem; color:#193350;">
               <strong>${room.collected}</strong> / <strong>${room.goal}</strong> € raccolti
             </p>
             <button class="btn" onclick="openModal('${room.id}')">contribuisci</button>
@@ -405,6 +405,8 @@
           // Riempimento verde tenue (scegli un colore che preferisci)
           overlayEl.style.fill = "#b3ffb3";
           overlayEl.style.fillOpacity = 0.5;
+          overlayEl.style.stroke = "#006400";      // darkgreen
+          overlayEl.style.strokeWidth = "4px";     // spessore del bordo
         } else {
           // Riempimento di base
           overlayEl.style.fill = "#ffffff";
